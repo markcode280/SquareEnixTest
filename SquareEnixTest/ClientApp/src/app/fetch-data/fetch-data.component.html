@@ -1,0 +1,33 @@
+<h1 id="tableLabel">Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<p *ngIf="!games"><em>Loading...</em></p>
+<button class="btn btn-primary" (click)="AddGame()">AddGame</button>
+<hr />
+<app-AddGame [events]="eventsSubject.asObservable()" [selected]="selected" [editing]="editing.asObservable()" (newGame)="GameRecieved($event)">
+
+</app-AddGame>
+<table class='table table-striped table-hover' aria-labelledby="tableLabel" *ngIf="games">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Genre</th>
+      <th>PlatForms</th>
+      <th>Selected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let gameOv of games" (click)="ModifyGame(gameOv)" class="mask flex-center rgba-blue-light">
+      <td>{{ gameOv.name }}</td>
+      <td>{{ gameOv.genre }}</td>
+      <td>{{ gameOv.platforms }}</td>
+      <td><Input type="checkbox" name="isSelected" [(ngModel)]="gameOv.isSelected" [checked]="gameOv.isSelected" ngDefaultControl [ngModelOptions]="{standalone: true}" /></td>
+      <br />
+
+      <hr />
+      <br />
+      <td><button type="button" class=" btn btn-danger" (click)="deleteEntry(gameOv)"> delete</button></td>
+    </tr>
+  </tbody>
+</table>

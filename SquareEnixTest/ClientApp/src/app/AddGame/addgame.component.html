@@ -1,0 +1,25 @@
+<div *ngIf="!visible">
+  <h1>Add New Game</h1>
+
+  <form>
+    <div class="form-group">
+
+      <input id="name" type="text" class="form-control" placeholder="Game Name" [(ngModel)]="game.name" name="Name">
+      <label for="exampleFormControlSelect1"> Genre</label>
+      <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="game.genre"  nf-if="genres" name="Genre">       
+        <option *ngFor="let genre of genres" value="{{genre.name}}" >{{genre.name}}</option>
+      </select>
+
+    </div>
+    <label for="exampleFormControlSelect1"> Select Platforms</label>
+    <select multiple class="form-control" id="exampleFormControlSelect2" [(ngModel)]="game.platforms" ng-if="platforms" name="Platform">
+        <option *ngFor="let platform of platforms" value="{{platform.name}}">{{platform.name}}</option>
+      </select>
+   
+
+  </form>
+  <br/>
+  <button *ngIf="!isEditing" class="btn btn-primary" (click)="AddGame(game)">Submit</button><button *ngIf="isEditing" class="btn btn-primary" (click)="EditingGame(game)">Update</button>
+  <br />
+</div>
+<br />
