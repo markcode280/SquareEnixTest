@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using SquareEnixTest.Data;
+using SquareEnixTest.Data.Models;
 using SquareEnixTest.Data.ViewModel;
 using SquareEnixTest.Services.Interfaces;
 
@@ -79,7 +81,6 @@ namespace SquareEnixTest.Controllers
             {
                 var games = _gameService.GetAllGamesAToZ().Select(x => new GameVm
                 {
-
                     Genre = x.Genre.Name,
                     Id = x.Id.ToString(),
                     Name = x.Name,
@@ -109,11 +110,18 @@ namespace SquareEnixTest.Controllers
             {
                 int gameId = Convert.ToInt32(game.Id);
                 var existingGame = _gameService.GetGameById(Convert.ToInt32(game.Id));
-                existingGame.Genre = _genreService.getGenreByName(game.Genre);
-                existingGame.GenreId = existingGame.Genre.Id;
-                existingGame.Platforms = _gamePlatformService.getAllGamePlatforms().Where(x => game.Platforms.Contains(x.Platform == null ? _platformService.getPlatformById(x.PlatFormId).Name : x.Platform.Name) && x.Id == gameId).ToList();
-                existingGame.Name = game.Name;
+                
+                if (existingGame != null)
+                {
+                    existingGame.Genre=existingGame?.Genre == null? _genreService.getGenreByName(game.Genre): existingGame.Genre;
+                    existingGame.GenreId = existingGame.Genre.Id;
+                    existingGame.Platforms= existingGame.Platforms == null ? _gamePlatformService.getAllGamePlatformsByGameId(gameId) : existingGame.Platforms;
 
+                    var platforms = _platformService.getAllPlatform().Where(x => game.Platforms.Contains(x.Name == null ? _platformService.getPlatformById(x.Id).Name : x.Name)).ToList();
+                    var newGamePlatforms = platforms.Select(x => new GamePlatforms { Game = existingGame, GameId = existingGame.Id, Platform = x, PlatFormId = x.Id }).ToList();
+                    existingGame.Platforms = newGamePlatforms;
+                    
+                }
 
                 gameVm = _gameService.UpdateGame(existingGame);
 

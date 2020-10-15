@@ -58,7 +58,7 @@ export class FetchDataComponent {
         })
       }).subscribe(result => {
         if (result) {
-         this.games = this.games.filter(item => item.id!= game.id);
+         this.games = this.games.filter(item => item!= game);
         }
         //this.forecasts = result;
       }, error => console.error(error));
