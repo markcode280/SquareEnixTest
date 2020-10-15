@@ -18,11 +18,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let gameOv of games" (click)="ModifyGame(gameOv)" class="mask flex-center rgba-blue-light">
+    <tr *ngFor="let gameOv of games" (click)="gameOv.isSelected=!gameOv.isSelected;ModifyGame(gameOv)" class="mask flex-center rgba-blue-light">
       <td>{{ gameOv.name }}</td>
       <td>{{ gameOv.genre }}</td>
       <td>{{ gameOv.platforms }}</td>
-      <td><Input type="checkbox" name="isSelected" [(ngModel)]="gameOv.isSelected" [checked]="gameOv.isSelected" ngDefaultControl [ngModelOptions]="{standalone: true}" /></td>
+      <td><Input type="checkbox"  /></td>
       <br />
 
       <hr />
