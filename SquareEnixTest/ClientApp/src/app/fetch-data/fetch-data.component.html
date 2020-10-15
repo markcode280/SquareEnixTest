@@ -1,9 +1,9 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Game Changer</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Start by clicking the add/edit game button to show and hide the view. to edit click on the table item and click on the update button</p>
 
 <p *ngIf="!games"><em>Loading...</em></p>
-<button class="btn btn-primary" (click)="AddGame()">AddGame</button>
+<button class="btn btn-primary" (click)="AddGame()">AddGame/Edit Game</button>
 <hr />
 <app-AddGame [events]="eventsSubject.asObservable()" [selected]="selected" [editing]="editing.asObservable()" (newGame)="GameRecieved($event)">
 

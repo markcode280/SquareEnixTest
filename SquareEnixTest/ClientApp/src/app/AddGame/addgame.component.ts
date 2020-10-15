@@ -76,9 +76,10 @@ export class AddGameComp {
         })
       }).subscribe(result => {
         this.game = result;
+        this.newGame.emit(this.game);
       }, error => console.error(error));
 
-    this.newGame.emit(this.game);
+    
   }
 
   public isVisible(evt: boolean) {
